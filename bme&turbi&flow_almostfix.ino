@@ -63,6 +63,7 @@ void loop() {
   printValues();
   turbidity();
   flow();
+  Serial.print("_________________________________");
   delay(delayTime);
 }
 
@@ -153,7 +154,7 @@ void flow(){
   Serial.println("L/min");
   Serial.print("Output Liquid Quantity: ");
   Serial.print(totalMilliLitres);
-  Serial.println("mL / ");
+  Serial.print("mL / ");
   Serial.print(totalMilliLitres / 1000);
   Serial.println("L");
   Serial.println();
