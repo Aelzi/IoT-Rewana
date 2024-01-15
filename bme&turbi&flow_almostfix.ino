@@ -63,7 +63,7 @@ void loop() {
   printValues();
   turbidity();
   flow();
-  Serial.print("_________________________________");
+  Serial.println("_________________________________");
   delay(delayTime);
 }
 
