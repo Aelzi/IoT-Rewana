@@ -34,6 +34,7 @@ unsigned long delayTime = 1000;
 
 // Variabel untuk menyimpan laju aliran dan total cairan
   float flowRate;
+  float totalLiters;
   unsigned int flowMilliLitres;
   unsigned long totalMilliLitres;
 
@@ -82,6 +83,7 @@ void setup() {
   flowRate = 0.0;
   flowMilliLitres = 0;
   totalMilliLitres = 0;
+  totalLiters = 0.0;
   previousMillis = 0;
 
   // Mengaitkan interrupt dengan fungsi pulseCounter saat terjadi falling edge pada pin sensor
@@ -115,30 +117,32 @@ void loop() {
 }
 
 void printValues() {
-  Serial.print("Temperature = ");
-  Serial.print(bme.readTemperature());
+  Serial.print("Temperature (*C)= ");
+  Serial.println(bme.readTemperature());
+  LoRa.print("Temperature (*C)= ");
   LoRa.println(bme.readTemperature()); //output lora receiver
-  Serial.println(" *C");
+
   
   // Convert temperature to Fahrenheit
   /*Serial.print("Temperature = ");
   Serial.print(1.8 * bme.readTemperature() + 32);
   Serial.println(" *F");*/
   
-  Serial.print("Pressure = ");
-  Serial.print(bme.readPressure() / 100.0F);
+  Serial.print("Pressure (hPa) = ");
+  Serial.println(bme.readPressure() / 100.0F);
+  LoRa.print("Pressure (hPa) = ");
   LoRa.println(bme.readPressure() / 100.0F); //output lora receiver
-  Serial.println(" hPa");
 
-  Serial.print("Approx. Altitude = ");
-  Serial.print(bme.readAltitude(SEALEVELPRESSURE_HPA));
+  Serial.print("Approx. Altitude (m)= ");
+  Serial.println(bme.readAltitude(SEALEVELPRESSURE_HPA));
+  LoRa.print("Approx. Altitude (m)= ");
   LoRa.println(bme.readAltitude(SEALEVELPRESSURE_HPA)); //output lora receiver
-  Serial.println(" m");
 
-  Serial.print("Humidity = ");
-  Serial.print(bme.readHumidity());
+  Serial.print("Humidity (%)= ");
+  Serial.println(bme.readHumidity());
+  LoRa.print("Humidity (%)= ");
   LoRa.println(bme.readHumidity()); //output lora receiver
-  Serial.println(" %");
+  
 
   Serial.println();
 }
@@ -174,13 +178,17 @@ void turbidity(){
   // Serial.print(voltage);
   // Serial.print(" V");
   float mappedTurbidity = map(ntu, minTurbiditySensor, maxTurbiditySensor, minTurbidityOutput, maxTurbidityOutput);
-  Serial.print("Voltage Turbidity = ");
-  Serial.print(volt);
-  Serial.println(" V");
-  Serial.print("Turbidity Value= ");
-  Serial.print(mappedTurbidity);
+  Serial.print("Voltage Turbidity (V)= ");
+  Serial.println(volt);
+  LoRa.print("Voltage Turbidity (V)= ");
+  LoRa.print(volt);
+ 
+
+  Serial.print("Turbidity Value (NTU)= ");
+  Serial.println(mappedTurbidity);
+  LoRa.print("Turbidity Value (NTU)= ");//output lora receiver
   LoRa.println(mappedTurbidity); //output lora receiver
-  Serial.println(" NTU");
+
   Serial.println();
   //delay(10);
 }
@@ -201,19 +209,24 @@ void flow(){
   totalMilliLitres += flowMilliLitres;
 
   // Menampilkan informasi flow rate dan total milliliter pada Serial Monitor
-  Serial.print("Flow rate: ");
-  Serial.print(int(flowRate));
+  Serial.print("Flow rate (L/min)= ");
+  Serial.println(int(flowRate));
+  LoRa.print("Flow rate (L/min)= ");
   LoRa.println(int(flowRate)); //output lora receiver
 
-  Serial.println("L/min");
-  Serial.print("Output Liquid Quantity: ");
-  Serial.print(totalMilliLitres);
-  LoRa.println(totalMilliLitres); //output lora receiver
 
-  Serial.print("mL / ");
-  Serial.print(totalMilliLitres / 1000);
-  LoRa.println(totalMilliLitres / 1000); //output lora receiver
-  Serial.println("L");
+  // Serial.print("Output Liquid Quantity: ");
+  // Serial.print(totalMilliLitres);
+  // LoRa.print("Output Liquid Quantity: ");
+  // LoRa.println(totalMilliLitres); //output lora receiver
+
+  totalLiters = totalMilliLitres / 1000;
+  Serial.print("Total Liter (mL) = ");
+  Serial.println(totalMilliLitres);
+  //Serial.print("mL / ");
+  LoRa.print("Total Liter (mL) = ");
+  LoRa.println(totalMilliLitres); //output lora receiver
+  // Serial.println("L");
 
 }
 
