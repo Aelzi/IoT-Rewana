@@ -11,7 +11,6 @@
 #define LORA_TX_POWER 20
 #define LORA_SPREADING_FACTOR 12
 #define SEALEVELPRESSURE_HPA (1013.25)
-
 Adafruit_BME280 bme;
 int counter = 0;
 int TURBI_PIN = 25;
