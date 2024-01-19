@@ -2,7 +2,6 @@
 #include <SPI.h>
 #include <LoRa.h>
 #include <Adafruit_Sensor.h>
-#include <Adafruit_BME280.h>
 #include <LiquidCrystal_I2C.h>
 
 #define LORA_AURORA_V2_NSS 15
@@ -17,7 +16,7 @@
 int lcdColumns = 20;
 int lcdRows = 4;
 
-Adafruit_BME280 bme;
+
 int counter = 0;
 int TURBI_PIN = 25;
 int FLOW_PIN = 26;
@@ -34,6 +33,10 @@ byte pulse1Sec = 0;
 float flowRate;
 unsigned int flowMilliLitres;
 unsigned long totalMilliLitres;
+
+float round_to_dp( float in_value, int decimal_place );
+void turbidity();
+void flow();
 
 // set LCD address, number of columns and rows
 // if you don't know your display address, run an I2C scanner sketch
@@ -53,7 +56,7 @@ void setup()
   lcd.backlight();
 
   Serial.begin(9600);
-  bme.begin(0x76);
+
 
   // Konfigurasi pin sensor flow water sebagai input pull-up
   pinMode(FLOW_PIN, INPUT_PULLUP);
@@ -176,7 +179,10 @@ void turbidity(){
   lcd.setCursor(15, 1);
   lcd.print(mappedTurbidity); 
   //LoRa.print("Turbidity Value (NTU)= ");//output lora receiver
-  LoRa.println(mappedTurbidity); //output lora receiver
+  Serial.println("Lora Data mappedTurbidity ");
+  Serial.println(mappedTurbidity); //output lora receiver
+  LoRa.println(mappedTurbidity);
+  Serial.print("________");//output lora receiver
 
   //delay(10);
 }
@@ -205,8 +211,11 @@ void flow(){
     lcd.print(int(flowRate)); 
     lcd.setCursor(15, 2);
     lcd.print("L/min");
-    
-    LoRa.print(int(flowRate));  // Print the integer part of the variable
+
+    Serial.println("Lora Data FlowRate");
+    Serial.print(int(flowRate)); 
+    Serial.println("_______");
+    LoRa.println(int(flowRate));  // Print the integer part of the variable
     Serial.print("L/min");
     Serial.print("\t");       // Print tab space
 
@@ -216,7 +225,10 @@ void flow(){
     Serial.print(totalMilliLitres);
     Serial.print("mL / ");
     Serial.print(float(totalMilliLitres / 1000));
-    LoRa.print(float(totalMilliLitres / 1000));
+    Serial.println("Lora Data TOtalDebit");
+    Serial.println(totaldebit);
+    LoRa.print(totaldebit);
+    Serial.println("_______");
     Serial.println("L");
 
     lcd.setCursor(0, 3);
