@@ -179,10 +179,9 @@ void turbidity(){
   lcd.setCursor(15, 1);
   lcd.print(mappedTurbidity); 
   //LoRa.print("Turbidity Value (NTU)= ");//output lora receiver
-  Serial.println("Lora Data mappedTurbidity ");
+  Serial.print("Lora Data mappedTurbidity :");
   Serial.println(mappedTurbidity); //output lora receiver
   LoRa.println(mappedTurbidity);
-  Serial.print("________");//output lora receiver
 
   //delay(10);
 }
@@ -204,31 +203,30 @@ void flow(){
 
   // Print the flow rate for this second in litres / minute
     Serial.print("Flow rate: ");
-    Serial.print(int(flowRate));
+    Serial.println(int(flowRate));
     lcd.setCursor(0, 2);
     lcd.print( "Flow rate:");
     lcd.setCursor(10, 2);
     lcd.print(int(flowRate)); 
     lcd.setCursor(15, 2);
-    lcd.print("L/min");
+    lcd.println("L/min");
 
-    Serial.println("Lora Data FlowRate");
+    Serial.print("Lora Data FlowRate:");
     Serial.print(int(flowRate)); 
-    Serial.println("_______");
     LoRa.println(int(flowRate));  // Print the integer part of the variable
     Serial.print("L/min");
-    Serial.print("\t");       // Print tab space
+    Serial.println("\t");       // Print tab space
 
     float totaldebit = totalMilliLitres / 1000;
     // Print the cumulative total of litres flowed since starting
     Serial.print("Output Liquid Quantity: ");
     Serial.print(totalMilliLitres);
-    Serial.print("mL / ");
-    Serial.print(float(totalMilliLitres / 1000));
-    Serial.println("Lora Data TOtalDebit");
+    Serial.println("mL / ");
+    Serial.println(float(totalMilliLitres / 1000));
+    Serial.print("Lora Data TOtalDebit:");
     Serial.println(totaldebit);
     LoRa.print(totaldebit);
-    Serial.println("_______");
+
     Serial.println("L");
 
     lcd.setCursor(0, 3);
