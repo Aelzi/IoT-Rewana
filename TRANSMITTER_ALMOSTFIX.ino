@@ -225,7 +225,7 @@ void flow(){
     Serial.println(float(totalMilliLitres / 1000));
     Serial.print("Lora Data TOtalDebit:");
     Serial.println(totaldebit);
-    LoRa.print(totaldebit);
+    LoRa.println(totaldebit);
 
     Serial.println("L");
 
