@@ -16,7 +16,6 @@
 int lcdColumns = 20;
 int lcdRows = 4;
 
-
 int counter = 0;
 int TURBI_PIN = 25;
 int FLOW_PIN = 26;
