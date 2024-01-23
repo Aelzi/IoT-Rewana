@@ -2,7 +2,6 @@
 <html>
 <head>
  <style>
-  
   table {
    border-collapse: collapse;
    width: 100%;
@@ -54,11 +53,11 @@
 $servername = "localhost";
 
 // REPLACE with your Database name
-$dbname = "Database name";
+$dbname = "id21802268_rewanaiot";
 // REPLACE with Database user
-$username = "Database user";
+$username = "id21802268_rewanaiot";
 // REPLACE with Database user password
-$password = "Database user password";
+$password = "Rewanaiot123,";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -67,7 +66,7 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 } 
 
-$sql = "SELECT id, sensor, location, volt, turbiValue, reading_time FROM SensorTurbidity ORDER BY id DESC";
+$sql = "SELECT id, sensor, location, volt, turbiValue, reading_time FROM SensorTurbidity ORDER BY id DESC LIMIT 10";
 
 echo '<h1> Turbidity Database </h1>
       <table cellspacing="5" cellpadding="5">
@@ -93,13 +92,53 @@ if ($result = $conn->query($sql)) {
       
         // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
         $row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time + 7 hours"));
+
+        
+        echo '<tr> 
+        <td>' . $row_id . '</td> 
+        <td>' . $row_sensor . '</td> 
+        <td>' . $row_location . '</td> 
+        <td>' . $row_volt . '</td> 
+        <td>' . $row_turbiValue . '</td>
+        <td>' . $row_reading_time . '</td> 
+        </tr>';
+      } 
+      $result->free(); 
+    }
+
+$sql = "SELECT id, sensor, location, flowrate, debit, reading_time FROM SensorFlowWater ORDER BY id DESC LIMIT 10";
+
+echo '<h1> Flow Water Database </h1>
+      <table cellspacing="5" cellpadding="5">
+      <tr> 
+        <td>ID</td> 
+        <td>Sensor</td> 
+        <td>Location</td> 
+        <td>Flow Rate(L/m)</td> 
+        <td>Debiit(mL)</td> 
+        <td>Timestamp</td> 
+      </tr>';
+      
+if ($result = $conn->query($sql)) {
+    while ($row = $result->fetch_assoc()) {
+        $row_id = $row["id"];
+        $row_sensor = $row["sensor"];
+        $row_location = $row["location"];
+        $row_flowrate = $row["flowrate"];
+        $row_debit = $row["debit"];
+        $row_reading_time = $row["reading_time"];
+        // Uncomment to set timezone to - 1 hour (you can change 1 to any number)
+        //$row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time - 1 hours"));
+      
+        // Uncomment to set timezone to + 7 hours (you can change 7 to any number)
+        $row_reading_time = date("Y-m-d H:i:s", strtotime("$row_reading_time + 7 hours"));
       
         echo '<tr> 
                 <td>' . $row_id . '</td> 
                 <td>' . $row_sensor . '</td> 
                 <td>' . $row_location . '</td> 
-                <td>' . $row_volt . '</td> 
-                <td>' . $row_turbiValue . '</td>
+                <td>' . $row_flowrate . '</td> 
+                <td>' . $row_debit . '</td>
                 <td>' . $row_reading_time . '</td> 
               </tr>';
     }
