@@ -1,7 +1,7 @@
+#include <Arduino.h>
 #include <Wire.h>
 #include <SPI.h>
 #include <LoRa.h>
-#include <Adafruit_Sensor.h>
 #include <LiquidCrystal_I2C.h>
 
 #define LORA_AURORA_V2_NSS 15
@@ -167,9 +167,7 @@ void turbidity(){
   float mappedTurbidity = map(ntu, minTurbiditySensor, maxTurbiditySensor, minTurbidityOutput, maxTurbidityOutput);
   Serial.print("Voltage Turbidity (V)= ");
   Serial.println(volt);
-  //LoRa.print("Voltage Turbidity (V)= ");
-  //LoRa.print(volt);
- 
+  LoRa.println(volt);
 
   Serial.print("Turbidity(NTU): ");
   Serial.println(mappedTurbidity);
@@ -186,8 +184,6 @@ void turbidity(){
 }
 
 void flow(){
-
-
  // Menghitung aliran air
   currentMillis = millis();
   if (currentMillis - previousMillis > interval) {   
@@ -219,12 +215,14 @@ void flow(){
     float totaldebit = totalMilliLitres / 1000;
     // Print the cumulative total of litres flowed since starting
     Serial.print("Output Liquid Quantity: ");
-    Serial.print(totalMilliLitres);
+    Serial.print(totalMilliLitres*2);
+    LoRa.print(totalMilliLitres*2);
     Serial.println("mL / ");
+    
     Serial.println(float(totalMilliLitres / 1000));
     Serial.print("Lora Data TOtalDebit:");
     Serial.println(totaldebit);
-    LoRa.print(totaldebit);
+    //LoRa.print(totaldebit);
 
     Serial.println("L");
 
