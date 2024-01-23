@@ -14,17 +14,17 @@
 $servername = "localhost";
 
 // REPLACE with your Database name
-$dbname = "Database name";
+$dbname = "id21802268_rewanaiot";
 // REPLACE with Database user
-$username = "Database user";
+$username = "id21802268_rewanaiot";
 // REPLACE with Database user password
-$password = "Database user password";
+$password = "Rewanaiot123,";
 
 // Keep this API Key value to be compatible with the ESP32 code provided in the project page. 
 // If you change this value, the ESP32 sketch needs to match
 $api_key_value = "tPmAT5Ab3j7F9";
 
-$api_key= $sensor = $location = $volt = $turbiValue = "";
+$api_key = $sensor = $location = $volt = $turbiValue = "";
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $api_key = test_input($_POST["api_key"]);
