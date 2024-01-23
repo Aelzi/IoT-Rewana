@@ -53,11 +53,11 @@
 $servername = "localhost";
 
 // REPLACE with your Database name
-$dbname = "id21802268_rewanaiot";
+$dbname = "Database name";
 // REPLACE with Database user
-$username = "id21802268_rewanaiot";
+$username = "Database user";
 // REPLACE with Database user password
-$password = "Rewanaiot123,";
+$password = "Database user password";
 
 // Create connection
 $conn = new mysqli($servername, $username, $password, $dbname);
