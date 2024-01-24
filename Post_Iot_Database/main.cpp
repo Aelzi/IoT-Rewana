@@ -15,14 +15,21 @@
 #define LORA_TX_POWER 20
 #define LORA_SPREADING_FACTOR 12
 
-#define WIFI_SSID "MBC-Lab 2.4G"
-#define WIFI_PASSWORD "gogombc123"
-//#define WIFI_SSID "ESP32AURORA"
-//#define WIFI_PASSWORD "12345678"
+#define WIFI1_SSID "MBC-Lab 2.4G"
+#define WIFI1_PASSWORD "gogombc123"
+#define WIFI2_SSID "ESP32AURORA"
+#define WIFI2_PASSWORD "12345678"
+#define WIFI3_SSID "farel"
+#define WIFI3_PASSWORD "12345678"
 // #define API_KEY "AIzaSyB9Jyg-aZfMYEjJD4nq_v3gcMRv0Lh7EdM"
 // #define DATABASE_URL "https://aurora-638d6-default-rtdb.asia-southeast1.firebasedatabase.app/"
 const char* serverNameTurbi = "https://rewanateam.000webhostapp.com/post-turbi-data.php";
 const char* serverNameFlow = "https://rewanateam.000webhostapp.com/post-flow-data.php";
+
+// Daftar referensi Wi-Fi yang akan dicoba
+const char* wifiNetworks[] = {"WIFI1_SSID", "WIFI2_SSID", "WIFI3_SSID"};
+const char* wifiPasswords[] = {"WIFI1_PASSWORD", "WIFI2_PASSWORD", "WIFI3_PASSWORD"};
+const int numNetworks = sizeof(wifiNetworks) / sizeof(wifiNetworks[0]);
 
 
 
@@ -49,8 +56,11 @@ String Value3= "";
 String Value4= "";
 
 int counter = 0;
-int TURBI_PIN = 32;
+int TURBI_PIN = 33;
 int FLOW_PIN = 26;
+// int RESET_PIN = 32;
+int RESET_PIN = 25;
+
 
 int delayTime = 1000;
 
@@ -106,7 +116,7 @@ float round_to_dp( float in_value, int decimal_place )
                                                       
 void wifibegin(){
   //wifi - firebase connecting
-  WiFi.begin(WIFI_SSID, WIFI_PASSWORD);
+  WiFi.begin(WIFI1_SSID, WIFI1_PASSWORD);
   lcd.setCursor(0, 1);
   Serial.print("Menyambungkan ke wifi..");
   lcd.print("Connecting to wifi..");
@@ -267,6 +277,8 @@ void flow(){
 }
 
 void setup(){
+  digitalWrite(RESET_PIN, HIGH);
+  pinMode(RESET_PIN, OUTPUT);
   Serial.begin(9600);
   lcd.init();
   lcd.backlight(); // Untuk monitor serial
@@ -336,6 +348,7 @@ void postdataFlow(){
   }
   else {
     Serial.println("WiFi Disconnected");
+      digitalWrite(RESET_PIN, LOW);
   }
   //Send an HTTP POST request every 30 seconds
   //delay(30000);  
@@ -393,6 +406,7 @@ void postdataTurbi(){
   }
   else {
     Serial.println("WiFi Disconnected");
+    digitalWrite(RESET_PIN, LOW);
   }
   //Send an HTTP POST request every 30 seconds
   //delay(30000);  
@@ -427,7 +441,8 @@ Serial.println(FlowmiliLiterHulu);
 Serial.println("+++++++++++++++++++++++");
 }
 
-void loop() {
+void loop(){
+  //digitalWrite(RESET_PIN, LOW);
   Serial.println("=================================");
   turbidity();
   flow();
@@ -463,6 +478,6 @@ void loop() {
     Serial.println("_");
   }
   //flow();
-  delay(10000);
+  delay(60000);
 
-}
+} 
